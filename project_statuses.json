@@ -1,0 +1,85 @@
+{
+  "report_title": "Project Status Report",
+  "report_date": "9 April 2026",
+  "portfolio_summary": "Portfolio delivery is progressing overall, with two initiatives on track, four moving forward with external dependencies, and one project currently blocked pending a security review.",
+  "projects": [
+    {
+      "name": "Tokenization",
+      "rag": "amber",
+      "progress": "80%",
+      "status": "80% of VISA testing has been completed. The issues affecting the remaining 20% have now been resolved.",
+      "next_step": "Complete the remaining testing with VISA and TAPPY.",
+      "notes": [
+        "The core testing stream is substantially complete.",
+        "Remaining work is dependent on final validation from VISA and TAPPY."
+      ]
+    },
+    {
+      "name": "TSP",
+      "rag": "amber",
+      "progress": "Discovery",
+      "status": "The initiative is currently in the discovery stage, and the implementation project plan is awaited from the vendor.",
+      "next_step": "Start joint discovery sessions between the TSP vendor and the digital card profile vendor next week.",
+      "notes": [
+        "The digital card profile vendor has already been engaged.",
+        "Execution planning depends on alignment between both vendors."
+      ]
+    },
+    {
+      "name": "Digital First → Reveal Card",
+      "rag": "amber",
+      "progress": "Solution Finalized",
+      "status": "The solution has been finalized and is awaiting development kickoff from Super QI and MuleSoft.",
+      "next_step": "Confirm the development start date and delivery milestones with Super QI and MuleSoft.",
+      "notes": [
+        "No solution design issue is outstanding.",
+        "The immediate dependency is development mobilization."
+      ]
+    },
+    {
+      "name": "PCI PIN",
+      "rag": "green",
+      "progress": "Core Build Complete",
+      "status": "Development of the core system has been completed, and the team is preparing for certification.",
+      "next_step": "Begin certification readiness activities and align the submission plan.",
+      "notes": [
+        "Delivery has moved from build into certification preparation.",
+        "The project is currently on track."
+      ]
+    },
+    {
+      "name": "PURE",
+      "rag": "green",
+      "progress": "Cards Shipped",
+      "status": "PURE cards have been personalized and shipped to the team for testing.",
+      "next_step": "Execute the planned testing cycle and capture any findings.",
+      "notes": [
+        "The physical card preparation step has been completed.",
+        "Testing readiness is now the key focus."
+      ]
+    },
+    {
+      "name": "Self-Service Kiosk",
+      "rag": "amber",
+      "progress": "POC Planning",
+      "status": "Proof-of-concept activities with multiple vendors are planned.",
+      "next_step": "Schedule vendor demonstrations and evaluate the proposed solutions.",
+      "notes": [
+        "The initiative is still at an early evaluation stage.",
+        "Vendor comparison will determine the preferred path forward."
+      ]
+    },
+    {
+      "name": "QI Tap",
+      "rag": "red",
+      "progress": "Pending Security Review",
+      "status": "QI Tap was removed from production by the security team, although it does not interface with ISC systems and is a third-party application integrated with the Scheme TSP.",
+      "next_step": "Complete the security review starting on Sunday, 12 April, and confirm the remediation or reinstatement path.",
+      "notes": [
+        "This is the main portfolio risk requiring management attention.",
+        "The dependency is the outcome of the security review."
+      ]
+    }
+  ]
+}
+

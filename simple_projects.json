@@ -1,0 +1,15 @@
+[
+  {
+    "name": "Tokenization",
+    "status": "80% testing completed and remaining issues resolved; final validation pending from partners."
+  },
+  {
+    "name": "PCI PIN",
+    "status": "Core system development completed and certification preparation is in progress."
+  },
+  {
+    "name": "QI Tap",
+    "status": "Removed from production and pending security review, so this project is currently at risk."
+  }
+]
+

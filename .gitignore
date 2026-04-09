@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Build outputs
+build/
+dist/
+*.spec
+*.zip
+
+# Generated presentations
+*.pptx
+
+# IDE files
+.idea/
+*.iml
+
+# Temporary local test inputs
+rag_override_projects.json
+
+# Keep the distributable app archive if you want to version/share the latest build
+!status-report-form-macos-app.zip
+
