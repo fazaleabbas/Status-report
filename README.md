@@ -74,6 +74,60 @@ Supported RAG values:
 
 The generated presentation is saved to the path you provide with `--output`.
 
+## AI analysis with local LLM (Ollama)
+
+The program can analyse and enrich raw project inputs with a local LLM before
+generating the deck. This produces polished executive-ready status text,
+accurate RAG inference, meaningful progress labels, next steps, and notes —
+instead of generic placeholders.
+
+### Recommended model: `llama3.2`
+
+Install once:
+
+```bash
+brew install ollama
+ollama pull llama3.2
+ollama serve          # keep running in background
+```
+
+### Form UI (AI mode)
+
+1. Tick **Analyse projects with local LLM before generating**
+2. Confirm the model name (default: `llama3.2`)
+3. Click **Check Ollama status** to verify
+4. Click **Generate PowerPoint** — analysis runs per project before the deck is built
+
+### CLI with analysis
+
+```bash
+python3 generate_status_report.py \
+  --simple-input simple_projects.json \
+  --analyse \
+  --model llama3.2 \
+  --output status-report-ai.pptx
+```
+
+### Fallback behaviour
+
+If Ollama is not running or the model is missing, the generator silently falls
+back to rule-based enrichment so the program never crashes.
+
+### How the analysis works
+
+For each project the LLM receives:
+- project name
+- raw status text
+
+And returns structured JSON containing:
+- `rag` — green / amber / red
+- `progress` — short phrase (e.g. "80% Complete", "Discovery Stage")
+- `status` — one polished executive sentence
+- `next_step` — one clear action
+- `notes` — two key consideration bullets
+
+A second LLM call produces the portfolio-level executive summary paragraph.
+
 ## Build a native macOS app bundle
 
 Because this workspace is on macOS, the native packaged output is a macOS `.app` bundle, not a Windows `.exe` file.

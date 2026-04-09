@@ -104,31 +104,39 @@ def build_data_from_simple_projects(
     simple_projects: list[dict[str, str]],
     report_title: str,
     report_date: str,
+    use_llm: bool = False,
+    llm_model: str = "llama3.2",
+    on_progress: Any = None,
 ) -> dict[str, Any]:
-    projects: list[dict[str, Any]] = []
-    for item in simple_projects:
-        rag = item.get("rag") or infer_rag_from_status(item["status"])
-        projects.append(
-            {
-                "name": item["name"],
-                "rag": rag,
-                "progress": "Status Update",
-                "status": item["status"],
-                "next_step": "Confirm next milestone and owner for this project.",
-                "notes": [
-                    "Update captured directly from the project status input form.",
-                    "Review this project in the next reporting cycle.",
-                ],
-            }
+    if use_llm:
+        from analyse_projects import enrich_projects
+        projects, portfolio_summary = enrich_projects(
+            simple_projects, model=llm_model, on_progress=on_progress
         )
-
-    green_count = sum(1 for project in projects if project["rag"] == "green")
-    amber_count = sum(1 for project in projects if project["rag"] == "amber")
-    red_count = sum(1 for project in projects if project["rag"] == "red")
-    portfolio_summary = (
-        f"Portfolio snapshot: {green_count} on track, {amber_count} in progress, "
-        f"and {red_count} at risk based on the latest user-entered updates."
-    )
+    else:
+        projects = []
+        for item in simple_projects:
+            rag = item.get("rag") or infer_rag_from_status(item["status"])
+            projects.append(
+                {
+                    "name": item["name"],
+                    "rag": rag,
+                    "progress": "Status Update",
+                    "status": item["status"],
+                    "next_step": "Confirm next milestone and owner for this project.",
+                    "notes": [
+                        "Update captured directly from the project status input form.",
+                        "Review this project in the next reporting cycle.",
+                    ],
+                }
+            )
+        green_count = sum(1 for project in projects if project["rag"] == "green")
+        amber_count = sum(1 for project in projects if project["rag"] == "amber")
+        red_count = sum(1 for project in projects if project["rag"] == "red")
+        portfolio_summary = (
+            f"Portfolio snapshot: {green_count} on track, {amber_count} in progress, "
+            f"and {red_count} at risk based on the latest user-entered updates."
+        )
 
     return {
         "report_title": report_title,
@@ -445,6 +453,17 @@ def parse_args() -> argparse.Namespace:
         default=f"status-report-{datetime.now().date().isoformat()}.pptx",
         help="Path to the output PowerPoint file.",
     )
+    parser.add_argument(
+        "--analyse",
+        action="store_true",
+        default=False,
+        help="Use local Ollama LLM to analyse and enrich project inputs before generating the deck.",
+    )
+    parser.add_argument(
+        "--model",
+        default="llama3.2",
+        help="Ollama model name to use for analysis (default: llama3.2).",
+    )
     return parser.parse_args()
 
 
@@ -459,7 +478,25 @@ def main() -> None:
     if args.simple_input:
         simple_input_path = Path(args.simple_input).resolve()
         simple_projects = load_simple_data(simple_input_path)
-        data = build_data_from_simple_projects(simple_projects, args.title, args.report_date)
+
+        if args.analyse:
+            from analyse_projects import check_ollama_available
+            available, msg = check_ollama_available(args.model)
+            if not available:
+                print(f"WARNING: {msg}")
+                print("Falling back to rule-based enrichment.")
+            else:
+                print(msg)
+
+            def cli_progress(current, total, message):
+                print(f"  [{current}/{total}] {message}")
+
+            data = build_data_from_simple_projects(
+                simple_projects, args.title, args.report_date,
+                use_llm=True, llm_model=args.model, on_progress=cli_progress
+            )
+        else:
+            data = build_data_from_simple_projects(simple_projects, args.title, args.report_date)
     else:
         input_path = Path(args.input).resolve() if args.input else Path("project_statuses.json").resolve()
         data = load_data(input_path)
