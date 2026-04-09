@@ -82,16 +82,16 @@ cat > "$PLIST_FILE" <<'PLIST'
 </plist>
 PLIST
 
-launchctl load "$PLIST_FILE" 2>/dev/null || launchctl unload "$PLIST_FILE" && launchctl load "$PLIST_FILE"
+launchctl load "$PLIST_FILE" 2>/dev/null || launchctl unload "$PLIST_FILE" 2>/dev/null && launchctl load "$PLIST_FILE" 2>/dev/null || true
 sleep 2
-echo -e "${GREEN}    ✓ Ollama will auto-start on login${NC}"
+echo -e "${GREEN}    ✓ Ollama service configured${NC}"
 echo ""
 
 # ───────────────────────────────────────────────────────────────────
 # Step 5: Install Python dependencies
 # ───────────────────────────────────────────────────────────────────
 echo -e "${YELLOW}[5/6]${NC} Installing Python dependencies..."
-python3 -m pip install -r requirements.txt --quiet
+python3 -m pip install -r requirements.txt --quiet --break-system-packages 2>/dev/null || python3 -m pip install -r requirements.txt --break-system-packages
 echo -e "${GREEN}    ✓ Dependencies installed${NC}"
 echo ""
 

@@ -12,6 +12,8 @@ python3 -m PyInstaller \
   --onedir \
   --name status-report-form \
   --osx-bundle-identifier com.fazaleabbas.statusreport \
+  --hidden-import=tkinter \
+  --hidden-import=_tkinter \
   status_report_form.py
 
 if [[ -d "$SCRIPT_DIR/dist/status-report-form.app" ]]; then
