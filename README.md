@@ -1,21 +1,58 @@
 # Status Report Presentation
 
-This workspace contains a small PowerPoint generator that creates a downloadable status report deck with visual RAG indicators.
+A professional status report generator with local AI analysis (Ollama + llama3.2).
+Creates PowerPoint decks with visual RAG indicators, polished executive content,
+and smart project analysis — all on your Mac without internet or API keys.
+
+## Installation
+
+The easiest way to get started is to run the automated installer:
+
+```bash
+cd /path/to/Status\ report
+chmod +x install.sh
+./install.sh
+```
+
+The installer will:
+1. Install Ollama (if needed) via Homebrew
+2. Download the llama3.2 AI model
+3. Configure Ollama to run in the background
+4. Install Python dependencies
+5. Build the macOS app
+6. (Optional) Copy app to Applications folder
+
+After installation, launch the app:
+- From Applications folder
+- Or: `open /Applications/status-report-form.app`
+- Or: Search "status report" in Spotlight (Cmd+Space)
+
+See `INSTALLATION.md` for post-install details.
 
 ## Files
 
 - `project_statuses.json` — source data for the project updates
 - `generate_status_report.py` — creates the `.pptx` presentation
 - `status_report_form.py` — simple desktop form to enter project name and status
+- `analyse_projects.py` — local LLM analysis pipeline with fallback
 - `validate_presentation.py` — checks that the generated deck exists and contains the expected content
 - `requirements.txt` — Python dependency list
+- `install.sh` — automated setup and build
+- `INSTALLATION.md` — post-install guide
 
-## Quick start (form UI)
+## Quick start (form UI) — Alternative manual run
+
+If you didn't use the installer or want to run from source:
 
 ```bash
 cd "/Users/fazaleabbas/Projects/Status report"
 python3 -m pip install -r requirements.txt
 python3 status_report_form.py
+```
+
+This assumes Ollama is already running separately:
+```bash
+ollama serve
 ```
 
 In the form:
