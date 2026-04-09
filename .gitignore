@@ -20,6 +20,7 @@ dist/
 
 # Temporary local test inputs
 rag_override_projects.json
+INSTALLATION_COMPLETE.txt
 
 # Keep the distributable app archive if you want to version/share the latest build
 !status-report-form-macos-app.zip
